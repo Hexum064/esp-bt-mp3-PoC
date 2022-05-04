@@ -26,6 +26,7 @@
 #include "esp_a2dp_api.h"
 #include "esp_avrc_api.h"
 #include "music.h"
+#include "esp_wifi.h"
 
 #define BT_AV_TAG				"BT_AV"
 #define BT_RC_CT_TAG			"RCCT"
@@ -113,6 +114,8 @@ static char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
 
 void app_main(void)
 {
+	esp_err_t results = esp_wifi_stop();
+
 	// Initialize NVS.
 	esp_err_t ret = nvs_flash_init();
 	if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -387,6 +390,7 @@ static void bt_app_a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param)
 static int32_t bt_app_a2d_data_cb(uint8_t *data, int32_t len)
 {
 //nop
+printf("%d\n", len);
 	static int32_t music_pointer = 0;
 	if (len < 0 || data == NULL) {
 		return 0;
@@ -394,7 +398,7 @@ static int32_t bt_app_a2d_data_cb(uint8_t *data, int32_t len)
 
 	for (int i = 0; i < (len >> 1); i++) {
 		// decrease volume
-		uint16_t val = music[music_pointer] * 0.5;
+		uint16_t val = music[music_pointer] * 0.1;
 
 		// convert to bytes
 		data[(i << 1) ] = val & 0xff;

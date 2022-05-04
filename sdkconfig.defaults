@@ -1,5 +1,6 @@
 # Override some defaults so BT stack is enabled and
 # Classic BT is enabled
+CONFIG_ESP32_WIFI_ENABLED=n
 CONFIG_BT_ENABLED=y
 CONFIG_BTDM_CTRL_MODE_BLE_ONLY=n
 CONFIG_BTDM_CTRL_MODE_BR_EDR_ONLY=y
